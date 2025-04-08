@@ -1,0 +1,13 @@
+package com.example.samuraitravel.repository;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.example.samuraitravel.entity.Reviews;
+
+public interface ReviewsRepository extends JpaRepository<Reviews, Integer> {
+	List<Reviews> findByHouseId(Integer houseId);
+	List<Reviews> findTop6ByHouseIdAtOrderByCreatedAtDesc(LocalDateTime createdAt);
+}

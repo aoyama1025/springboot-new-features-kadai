@@ -1,0 +1,26 @@
+package com.example.samuraitravel.service;
+
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.example.samuraitravel.entity.Reviews;
+import com.example.samuraitravel.form.ReviewsForm;
+import com.example.samuraitravel.repository.ReviewsRepository;
+
+@Service
+public class ReviewService {
+	
+    @Autowired
+    private ReviewsRepository reviewsRepository;
+    
+    public void createReviews(ReviewsForm reviewsForm) {
+        Reviews reviews = new Reviews();
+        reviews.setHouse(house);
+        reviews.setUser(user);
+        reviews.setStar(reviewsForm.getStar());
+        reviews.setComment(reviewsForm.getComment());
+        reviewsRepository.save(reviews);
+    }
+}

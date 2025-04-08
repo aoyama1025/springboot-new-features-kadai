@@ -1,0 +1,23 @@
+package com.example.samuraitravel.form;
+
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Size;
+import lombok.Data;
+
+@Data
+public class ReviewsForm {
+
+	private Integer houseId;
+
+	@Min(1)
+	@Max(5)
+	private int star;
+
+	@Size(max = 255)
+	private String comment;
+
+	public void setHouseId(Integer houseId) {
+		this.houseId = houseId;
+	}
+}

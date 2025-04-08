@@ -1,0 +1,29 @@
+package com.example.samuraitravel.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import com.example.samuraitravel.form.ReviewsForm;
+import com.example.samuraitravel.service.ReviewService;
+
+@Controller
+public class ReviewController {
+	
+	@Autowired
+    private ReviewService reviewService;
+	
+	@PostMapping("/reviews")
+    public void createReview(@RequestBody @Validated ReviewsForm reviewsForm) {
+        reviewService.createReviews(reviewsForm);
+    }
+	
+	@GetMapping("/review-form")
+    public String reviewsForm(Model model) {
+        return "houses/reviewsform";
+    }
+}

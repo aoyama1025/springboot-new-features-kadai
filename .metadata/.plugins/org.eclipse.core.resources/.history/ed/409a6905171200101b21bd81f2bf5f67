@@ -1,0 +1,90 @@
+package com.example.samuraitravel.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import com.example.samuraitravel.entity.House;
+import com.example.samuraitravel.entity.Reviews;
+import com.example.samuraitravel.entity.User;
+import com.example.samuraitravel.form.ReviewsForm;
+import com.example.samuraitravel.repository.HouseRepository;
+import com.example.samuraitravel.repository.ReviewsRepository;
+import com.example.samuraitravel.repository.UserRepository;
+import com.example.samuraitravel.service.ReviewService;
+
+@Controller
+public class ReviewController {
+
+	@Autowired
+	private ReviewService reviewService;
+
+	@Autowired
+	private HouseRepository houseRepository;
+
+	@Autowired
+	private ReviewsRepository reviewsRepository;
+
+	@Autowired
+	private UserRepository userRepository;
+
+	@PostMapping("/houses/{houseId}/reviews/register")
+	public String createReview(@PathVariable ("houseId") @ModelAttribute @Validated ReviewsForm reviewsForm, BindingResult bindingResult, Model model) {
+		if (bindingResult.hasErrors()) {
+	        // バリデーションエラーがある場合の処理
+	        model.addAttribute("errorMessage", "入力内容に誤りがあります。");
+	        return "houses/reviewsform"; // レビュー投稿フォームに戻る
+	    }
+
+	    try {
+	        reviewService.createReviews(reviewsForm);
+	        return "redirect:/houses/" + houseId + "/reviews";
+	    } catch (DataAccessException e) {
+	        // データベースエラーの処理
+	        model.addAttribute("errorMessage", "レビューの投稿ができませんでした。");
+	        return "houses/reviewsform"; // レビュー投稿フォームに戻る
+	    }
+	}
+		
+		
+		
+		
+//		ReviewsForm reviewsForm = new ReviewsForm();
+//        reviewService.createReviews(reviewsForm);
+//        return "redirect:/houses/" + houseId + "/reviews"; // リダイレクト
+//    }
+
+	@GetMapping("/houses/{houseId}/reviews/register")
+	public String reviewsForm(@PathVariable("houseId") Integer houseId, Model model) {
+		House house = houseRepository.findById(houseId).orElse(null);
+		if (house != null) {
+			model.addAttribute("house", house);
+			return "houses/reviewsform";
+		} else {
+			return "redirect:/houses";
+		}
+	}
+
+	@GetMapping("/houses/{houseId}/reviews")
+	public String showReviews(@PathVariable("houseId") Integer houseId, Model model) {
+		List<Reviews> reviews = reviewsRepository.findTop6ByHouseIdOrderByCreatedAtDesc(houseId);
+
+		// 各レビューに対応する User エンティティを取得し、レビューオブジェクトに設定
+		reviews.forEach(review -> {
+			User user = userRepository.findById(review.getUserId()).orElse(null);
+			review.setUser(user);
+		});
+
+		model.addAttribute("reviews", reviews);
+		return "reviews/show"; // レビューを表示するビューのパス
+	}
+}
