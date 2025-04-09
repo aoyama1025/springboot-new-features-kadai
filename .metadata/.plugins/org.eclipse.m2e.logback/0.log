@@ -776,3 +776,6 @@
 2025-04-08 20:47:37,315 [Worker-49: ビルド] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
 2025-04-08 20:47:37,327 [Worker-49: ビルド] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
 2025-04-08 20:47:37,338 [Worker-49: ビルド] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Java\kadai_002\kadai_002\samuraitravel\src\test\resources
+2025-04-08 21:14:47,954 [Worker-57: ビルド] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2025-04-08 21:14:47,969 [Worker-57: ビルド] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2025-04-08 21:14:47,981 [Worker-57: ビルド] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Java\kadai_002\kadai_002\samuraitravel\src\test\resources
